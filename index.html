@@ -4,23 +4,56 @@
   <meta charset="UTF-8">
   <title>Dilution Calculator (C1V1 = C2V2)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free chemistry dilution calculator using the C1V1 = C2V2 formula. Easily calculate solution concentrations, volumes, and serial dilutions.">
 </head>
 <body>
 
 <h1>Dilution Calculator</h1>
+<p>Enter three of the four values below and leave the one you want to calculate empty:</p>
 
-<p>
-Use this chemistry dilution calculator to apply the formula
-<strong>C1V1 = C2V2</strong> and determine solution concentrations.
-</p>
+<form id="dilutionForm">
+  <label>C1 (Initial Concentration): </label>
+  <input type="number" step="any" id="C1"><br><br>
 
-<p>
-This tool is useful for students, lab technicians, and anyone preparing chemical solutions.
-</p>
+  <label>V1 (Initial Volume): </label>
+  <input type="number" step="any" id="V1"><br><br>
 
-<p>
-Calculator coming next.
-</p>
+  <label>C2 (Final Concentration): </label>
+  <input type="number" step="any" id="C2"><br><br>
+
+  <label>V2 (Final Volume): </label>
+  <input type="number" step="any" id="V2"><br><br>
+
+  <button type="button" onclick="calculate()">Calculate</button>
+</form>
+
+<h2 id="result"></h2>
+
+<script>
+function calculate() {
+  let C1 = parseFloat(document.getElementById('C1').value);
+  let V1 = parseFloat(document.getElementById('V1').value);
+  let C2 = parseFloat(document.getElementById('C2').value);
+  let V2 = parseFloat(document.getElementById('V2').value);
+  let resultText = "";
+
+  let emptyCount = [C1, V1, C2, V2].filter(x => isNaN(x)).length;
+
+  if(emptyCount !== 1) {
+    resultText = "Please leave exactly one field empty to calculate.";
+  } else {
+    if(isNaN(C1)) C1 = (C2 * V2)/V1;
+    else if(isNaN(V1)) V1 = (C2 * V2)/C1;
+    else if(isNaN(C2)) C2 = (C1 * V1)/V2;
+    else if(isNaN(V2)) V2 = (C1 * V1)/C2;
+
+    resultText = `Result:<br>C1 = ${C1.toFixed(4)}<br>V1 = ${V1.toFixed(4)}<br>C2 = ${C2.toFixed(4)}<br>V2 = ${V2.toFixed(4)}`;
+  }
+
+  document.getElementById('result').innerHTML = resultText;
+}
+</script>
 
 </body>
 </html>
+
